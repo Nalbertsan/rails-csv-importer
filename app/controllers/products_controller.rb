@@ -1,23 +1,20 @@
 class ProductsController < ApplicationController
   def upload
-    # Esta ação apenas renderiza a view: app/views/products/upload.html.erb
   end
 
   def import
-    file = params[:file]
+  file = params[:file]
 
-    # Verifica se um arquivo foi realmente enviado
-    if file.nil?
-      redirect_to root_path, alert: 'Você precisa selecionar um arquivo CSV.'
-      return
-    end
+  if file.nil?
+    redirect_to root_path, alert: "Você precisa selecionar um arquivo CSV."
+    return
+  end
 
-    # Chama nosso Service Object!
-    ProductImporter.new(file).call
-    redirect_to root_path, notice: "Produtos importados com sucesso!"
+  ProductImportJob.perform_later(file.read)
 
-  # Resgata qualquer erro que nosso importador possa gerar
+  redirect_to root_path, notice: "Sua importação foi agendada! Os produtos aparecerão em breve."
+
   rescue => e
-    redirect_to root_path, alert: "Erro ao importar: #{e.message}"
+    redirect_to root_path, alert: "Erro ao agendar importação: #{e.message}"
   end
 end
