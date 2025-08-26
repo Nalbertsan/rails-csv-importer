@@ -1,0 +1,26 @@
+<h1>
+  Produtos Importados
+  <%= link_to 'Adicionar Produto Manualmente', new_product_path, role: 'button', style: 'margin-left: 1rem; font-size: 0.9rem;' %>
+</h1>
+<p><%= link_to 'Importar mais produtos', root_path %></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Descrição</th>
+      <th>Valor</th>
+      <th>Estoque</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.name %></td>
+        <td><%= product.description %></td>
+        <td><%= number_to_currency(product.value) %></td>
+        <td><%= product.stock_amount %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
