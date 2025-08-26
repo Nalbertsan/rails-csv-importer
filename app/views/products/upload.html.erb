@@ -1,0 +1,11 @@
+<h1>Importar Novos Produtos</h1>
+<p>Selecione um arquivo CSV para importar.</p>
+
+<% flash.each do |type, msg| %>
+  <p style="color: <%= type == 'notice' ? 'green' : 'red' %>;"><%= msg %></p>
+<% end %>
+
+<%= form_tag import_products_path, multipart: true do %>
+  <%= file_field_tag :file, required: true %>
+  <%= submit_tag "Importar Arquivo" %>
+<% end %>
